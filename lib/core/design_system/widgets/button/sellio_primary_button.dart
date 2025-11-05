@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sellio/core/design_system/theme/app_theme.dart';
 
+import '../loading_indicator/three_dots.dart';
+
 class SellioPrimaryButton extends StatelessWidget {
   final bool isDisabled;
   final String text;
@@ -39,6 +41,16 @@ class SellioPrimaryButton extends StatelessWidget {
                 color: isDisabled ? colors.hint : colors.onPrimary,
               ),
             ),
+            const SizedBox(width: 8),
+            if (isLoading) ...{
+              ThreeDotsLoadingIndicator(
+                colors: [
+                  colors.onPrimary.withAlpha(12),
+                  colors.onPrimary.withAlpha(50),
+                  colors.onPrimary,
+                ],
+              ),
+            },
           ],
         ),
       ),
