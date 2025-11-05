@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:sellio/core/design_system/theme/app_theme.dart';
 
 class SellioSnackBar {
   static SnackBar show({
@@ -8,9 +9,12 @@ class SellioSnackBar {
     required String message,
     required BuildContext context,
   }) {
+    final colors = context.colorScheme;
+    final typography = context.typography;
+
     return SnackBar(
       margin: EdgeInsetsGeometry.directional(
-          bottom: MediaQuery.of(context).size.height - 200
+        bottom: MediaQuery.of(context).size.height - 200,
       ),
       backgroundColor: Colors.transparent,
       behavior: SnackBarBehavior.floating,
@@ -18,8 +22,17 @@ class SellioSnackBar {
       content: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: colors.surfaceLow,
           borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: isError
+                  ? colors.red.withAlpha(12)
+                  : colors.green.withAlpha(12),
+              blurRadius: 24,
+              spreadRadius: 1,
+            ),
+          ],
         ),
         child: Stack(
           children: [
@@ -32,7 +45,7 @@ class SellioSnackBar {
                   width: 46,
                   height: 46,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).disabledColor,
+                    color: isError ? colors.errorVariant : colors.greenVariant,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: SvgPicture.asset(
@@ -51,9 +64,16 @@ class SellioSnackBar {
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: typography.label.large.copyWith(
+                          color: colors.title,
+                        ),
                       ),
-                      Text(message),
+                      Text(
+                        message,
+                        style: typography.body.small.copyWith(
+                          color: colors.body,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -70,7 +90,6 @@ class SellioSnackBar {
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).disabledColor,
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: SvgPicture.asset(
