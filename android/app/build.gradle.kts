@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "com.thechance.sellio.sellio"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
